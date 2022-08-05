@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "278949562325",
+    "project_id": "disaster-managent-system",
+    "storage_bucket": "disaster-managent-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278949562325:android:98b73dc824f23251e99f5c",
+        "android_client_info": {
+          "package_name": "com.example.disastermanagentsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278949562325-1hptsqgmk0o10j0d3c5cgpa4ej04qq61.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8gGgwVgRHLu34uLSPi-yFYwS3Dq2vYI0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278949562325-1hptsqgmk0o10j0d3c5cgpa4ej04qq61.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
