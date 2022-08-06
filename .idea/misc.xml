@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/AHMED/AndroidStudioProjects/DisasterManagentSystem/app/src/main/res/drawable/bottom_sheet_background.xml" value="0.2675" />
         <entry key="..\:/Users/AHMED/AndroidStudioProjects/DisasterManagentSystem/app/src/main/res/layout/activity_main.xml" value="0.25885416666666666" />
         <entry key="..\:/Users/AHMED/AndroidStudioProjects/DisasterManagentSystem/app/src/main/res/layout/activity_maps.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/AHMED/AndroidStudioProjects/DisasterManagentSystem/app/src/main/res/layout/fragment_bottom_sheet.xml" value="0.25" />
         <entry key="..\:/Users/AHMED/AndroidStudioProjects/DisasterManagentSystem/app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="..\:/Users/AHMED/AndroidStudioProjects/DisasterManagentSystem/app/src/main/res/layout/fragment_main.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/AHMED/AndroidStudioProjects/DisasterManagentSystem/app/src/main/res/layout/fragment_select_map_address.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/AHMED/AndroidStudioProjects/DisasterManagentSystem/app/src/main/res/layout/fragment_sigin_up.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/AHMED/AndroidStudioProjects/DisasterManagentSystem/app/src/main/res/layout/fragment_splash.xml" value="0.25" />
       </map>

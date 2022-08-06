@@ -21,4 +21,6 @@
     <string name="signup">Signup</string>
     <string name="emergency_number_2">Emergency number 2</string>
     <string name="please_provide_required_emergency_phone_numbers">*Please provide required emergency phone numbers</string>
+    <string name="marker_location_selection">*Please select location by adding marker</string>
+    <string name="create">Create</string>
 </resources>
