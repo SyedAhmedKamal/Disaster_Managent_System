@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +33,7 @@ public class SiginUpFragment extends Fragment {
     
     private FragmentSiginUpBinding binding;
     private AuthViewModel authViewModel;
+    private View mView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class SiginUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mView = view;
 
         binding.registrationBtn.setOnClickListener(view1 -> {
 
@@ -77,10 +81,16 @@ public class SiginUpFragment extends Fragment {
                 binding.edEmNumber2Res.setError("Required");
             } else {
                 authViewModel.signIn(new User(email, name, password, phone, emNum1, emNum2))
-                        .observe(getViewLifecycleOwner(), new Observer<Object>() {
+                        .observe(getViewLifecycleOwner(), new Observer<Boolean>() {
                             @Override
-                            public void onChanged(Object o) {
-                                Log.d(TAG, "onChanged: "+o.toString());
+                            public void onChanged(Boolean response) {
+                                if (!response){
+                                    Log.d(TAG, "onChanged: something went wrong");
+                                    return;
+                                }
+
+                                NavDirections directions = SiginUpFragmentDirections.actionSiginUpFragmentToLoginFragment();
+                                Navigation.findNavController(view).navigate(directions);
                             }
                         });
             }

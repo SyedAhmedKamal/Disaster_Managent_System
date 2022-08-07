@@ -21,15 +21,17 @@ public class AuthRepository {
 
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
-    MutableLiveData<Object> getMutableLiveDataResponse;
+    MutableLiveData<Boolean> getMutableLiveDataResponse;
+    MutableLiveData<Boolean> signInMutableLiveDataResponse;
     @Inject
     public AuthRepository() {
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         this.getMutableLiveDataResponse = new MutableLiveData<>();
+        this.signInMutableLiveDataResponse = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Object> signUp(User user) {
+    public MutableLiveData<Boolean> signUp(User user) {
         firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -44,9 +46,10 @@ public class AuthRepository {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
                                                 Log.d(TAG, "onComplete: " + task.isSuccessful());
-                                                getMutableLiveDataResponse.postValue(task.getResult());
+                                                getMutableLiveDataResponse.postValue(task.isSuccessful());
                                             } else {
                                                 Log.d(TAG, "onComplete: " + task.getException());
+                                                getMutableLiveDataResponse.postValue(false);
                                             }
                                         }
                                     });
@@ -56,5 +59,22 @@ public class AuthRepository {
                     }
                 });
         return getMutableLiveDataResponse;
+    }
+
+    public MutableLiveData<Boolean> login(String email, String password){
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            signInMutableLiveDataResponse.postValue(task.isSuccessful());
+                        }
+                        else{
+                            Log.d(TAG, "onComplete: "+task.getException());
+                            signInMutableLiveDataResponse.postValue(false);
+                        }
+                    }
+                });
+        return signInMutableLiveDataResponse;
     }
 }

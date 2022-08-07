@@ -19,8 +19,12 @@ public class AuthViewModel extends ViewModel {
         this.authRepository = authRepository;
     }
 
-    public MutableLiveData<Object> signIn(User user){
+    public MutableLiveData<Boolean> signIn(User user){
         return authRepository.signUp(user);
+    }
+
+    public MutableLiveData<Boolean> logIn(String email, String password){
+        return authRepository.login(email, password);
     }
 
 }
