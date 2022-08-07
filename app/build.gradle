@@ -82,4 +82,12 @@ dependencies {
     // Lifecycles only (without ViewModel or LiveData)
     implementation "androidx.lifecycle:lifecycle-runtime:1.1.1"
 
+    // For developers using AndroidX in their applications
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
+    // For developers using the Android Support Library
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
+    // Google locations
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
 }

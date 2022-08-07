@@ -6,16 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".view.fragments.MainFragment">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_400sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <fragment
+            android:id="@+id/mMap_main"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MapsActivity" />
+    </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bottom_sheet_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_6sdp"
         android:backgroundTint="@color/background_dark"
         android:clickable="true"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_5sdp"
         android:src="@drawable/ic_round_add_24"
         android:theme="@style/Theme.Material3.Dark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

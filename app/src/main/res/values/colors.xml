@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_light">#F3F3F3</color>
     <color name="background_dark">#5E6485</color>
+    <color name="circle_stroke">#F44336</color>
+    <color name="circle_fill">#B9F44336</color>
 </resources>

@@ -112,10 +112,12 @@ public class CreateAlertFragment extends Fragment implements OnMapReadyCallback 
 
         mMaps.getUiSettings().setCompassEnabled(true);
         mMaps.getUiSettings().setZoomControlsEnabled(true);
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        try {
+            mMaps.setMyLocationEnabled(true);
         }
-        mMaps.setMyLocationEnabled(true);
+        catch (SecurityException se){
+            Log.d(TAG, "onMapReady: "+se.getLocalizedMessage());
+        }
 
         mMaps.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
