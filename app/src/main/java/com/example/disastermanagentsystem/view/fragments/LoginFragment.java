@@ -46,31 +46,31 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mView=view;
+        mView = view;
 
-        String email = binding.edUsernameTxt.getText().toString().trim();
-        String password = binding.edPasswordTxt.getText().toString().trim();
+        binding.logInBtn.setOnClickListener(view1 -> {
+            String email = binding.edUsernameTxt.getText().toString().trim();
+            String password = binding.edPasswordTxt.getText().toString().trim();
 
-        if (email.isEmpty()){
-            binding.edUsernameTxt.setError("*Required");
-        }
-        else if(password.isEmpty()){
-            binding.edPasswordTxt.setError("*Required");
-        }
-        else{
-            authViewModel.logIn(email, password)
-                    .observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-                        @Override
-                        public void onChanged(Boolean response) {
-                            if (!response){
-                                Log.d(TAG, "onChanged: something went wrong");
-                                return;
+            if (email.isEmpty()) {
+                binding.edUsernameTxt.setError("*Required");
+            } else if (password.isEmpty()) {
+                binding.edPasswordTxt.setError("*Required");
+            } else {
+                authViewModel.logIn(email, password)
+                        .observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                            @Override
+                            public void onChanged(Boolean response) {
+                                if (!response) {
+                                    Log.d(TAG, "onChanged: something went wrong");
+                                    return;
+                                }
+                                Log.d(TAG, "onChanged: " + response);
+                                NavDirections directions = LoginFragmentDirections.actionLoginFragmentToMainFragment();
+                                Navigation.findNavController(mView).navigate(directions);
                             }
-
-                            NavDirections directions= LoginFragmentDirections.actionLoginFragmentToMainFragment();
-                            Navigation.findNavController(mView).navigate(directions);
-                        }
-                    });
-        }
+                        });
+            }
+        });
     }
 }

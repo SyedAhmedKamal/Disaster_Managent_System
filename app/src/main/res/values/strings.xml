@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Disaster Managent System</string>
+    <string name="app_name">DMS app</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="map_api_key">AIzaSyD1bTk9oDdqAv2qaxi4t86me2NZz2LwA1w</string>
     <string name="sign_in">Sign In</string>

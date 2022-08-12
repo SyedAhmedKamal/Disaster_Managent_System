@@ -86,8 +86,8 @@ public class CreateAlertFragment extends Fragment implements OnMapReadyCallback 
             } else if (String.valueOf(lang).isEmpty() || mAddress.isEmpty()) {
                 binding.mapText.setTextColor(Color.RED);
             } else {
-                Alert alert = new Alert(tag, lat, lang, mAddress);
-                alertViewModel.createAlert(alert).observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                //Alert alert = new Alert(tag, lat, lang, mAddress);
+                alertViewModel.createAlert(tag, lat, lang, mAddress).observe(getViewLifecycleOwner(), new Observer<Boolean>() {
                     @Override
                     public void onChanged(Boolean response) {
                         if (response) {

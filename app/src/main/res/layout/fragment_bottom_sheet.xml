@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/_5sdp"
     tools:context=".view.fragments.CreateAlertFragment">
@@ -48,7 +49,9 @@
         android:text="@string/marker_location_selection"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
+        app:cardElevation="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_12sdp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_400sdp"
         android:layout_marginStart="@dimen/_16sdp"
@@ -61,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".MapsActivity" />
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/create"

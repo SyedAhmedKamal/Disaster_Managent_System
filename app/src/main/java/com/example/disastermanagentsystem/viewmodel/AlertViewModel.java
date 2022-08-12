@@ -22,11 +22,15 @@ public class AlertViewModel extends ViewModel {
         this.alertRepository=alertRepository;
     }
 
-    public MutableLiveData<Boolean> createAlert(Alert alert){
-        return alertRepository.postAlert(alert);
+    public MutableLiveData<Boolean> createAlert(String tag,Double lat,Double lang,String mAddress){
+        return alertRepository.postAlert(tag, lat, lang, mAddress);
     }
 
     public MutableLiveData<List<Alert>> getAllAlerts(){
         return alertRepository.getAllAlerts();
+    }
+
+    public MutableLiveData<Boolean> deleteAlerts(String alertId){
+        return alertRepository.deleteAlert(alertId);
     }
 }

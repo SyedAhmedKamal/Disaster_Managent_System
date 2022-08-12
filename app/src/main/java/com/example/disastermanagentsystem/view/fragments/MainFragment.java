@@ -3,6 +3,9 @@ package com.example.disastermanagentsystem.view.fragments;
 import static com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY;
 
 import android.Manifest;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,7 +45,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +70,7 @@ public class MainFragment extends Fragment implements
     private GoogleMap mMaps;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -75,27 +81,40 @@ public class MainFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: called");
+
         binding = FragmentMainBinding.inflate(inflater, container, false);
         alertViewModel = new ViewModelProvider(this).get(AlertViewModel.class);
+        auth = FirebaseAuth.getInstance();
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated: called");
+
         mView = view;
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
 
         hasPermission();
         initMap(view);
-        getAlerts();
+
 
         binding.bottomSheetFab.setOnClickListener(view1 -> {
             NavDirections directions = MainFragmentDirections.actionMainFragmentToBottomSheetFragment();
             Navigation.findNavController(mView).navigate(directions);
         });
 
+        binding.logoutLayout.setOnClickListener(view1 -> {
+            auth.signOut();
+            requireActivity().finish();
+        });
 
+        binding.deleteMarkerFab.setOnClickListener(view1 -> {
+            NavDirections directions = MainFragmentDirections.actionMainFragmentToAllMarkerFragment();
+            Navigation.findNavController(mView).navigate(directions);
+        });
     }
 
     private void gotoLocation(double latitude, double longitude) {
@@ -109,6 +128,7 @@ public class MainFragment extends Fragment implements
         alertViewModel.getAllAlerts().observe(getViewLifecycleOwner(), new Observer<List<Alert>>() {
             @Override
             public void onChanged(List<Alert> alerts) {
+                mMaps.clear();
                 ArrayList<Alert> list = new ArrayList<>(alerts);
                 for (Alert alert : list) {
                     Log.d(TAG, "onChanged: " + alert.getAddress());
@@ -130,7 +150,7 @@ public class MainFragment extends Fragment implements
                 .strokeColor(ContextCompat.getColor(requireContext(), R.color.circle_stroke))
                 .strokeWidth(.2f)
                 .clickable(false)
-                .radius(50) // 20 meter
+                .radius(100) // 100 meter
         );
     }
 
@@ -145,11 +165,13 @@ public class MainFragment extends Fragment implements
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             perms = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION};
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                    Manifest.permission.SEND_SMS};
 
         } else {
             perms = new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION};
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.SEND_SMS};
         }
         if (EasyPermissions.hasPermissions(requireContext(), perms)) {
             Log.d(TAG, "Already has permissions");
@@ -174,6 +196,17 @@ public class MainFragment extends Fragment implements
                         Location location = task.getResult();
                         Log.d(TAG, "Fused Location: " + task.getResult());
                         gotoLocation(location.getLatitude(), location.getLongitude());
+
+                        Geocoder geocoder = new Geocoder(requireContext());
+                        try {
+                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            if (addresses.size() > 0) {
+                                Address address = addresses.get(0);
+                                binding.tvAddress.setText(address.getAddressLine(0));
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
@@ -205,8 +238,12 @@ public class MainFragment extends Fragment implements
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMaps = googleMap;
+        try {
+            mMaps.setMyLocationEnabled(true);
+        } catch (SecurityException se) {
+            se.getLocalizedMessage();
+        }
         setUISettings(mMaps);
-
     }
 
     private void setUISettings(GoogleMap maps) {
@@ -218,5 +255,31 @@ public class MainFragment extends Fragment implements
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause: called");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: called");
+        getAlerts();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: called");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: called");
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "onAttach: called");
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.disastermanagentsystem.model.Alert;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +29,7 @@ public class AlertRepository {
     DatabaseReference databaseReference;
     MutableLiveData<List<Alert>> alertResponseMutableLiveData;
     MutableLiveData<Boolean> createAlertMutableLiveData;
+    MutableLiveData<Boolean> deleteSuccessMutableLiveData;
     private ArrayList<Alert> alertArrayList;
 
     @Inject
@@ -36,11 +38,13 @@ public class AlertRepository {
         this.databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         alertResponseMutableLiveData = new MutableLiveData<>();
         createAlertMutableLiveData = new MutableLiveData<>();
+        deleteSuccessMutableLiveData = new MutableLiveData<>();
         alertArrayList = new ArrayList<>();
     }
 
-    public MutableLiveData<Boolean> postAlert(Alert alert){
+    public MutableLiveData<Boolean> postAlert(String tag,Double lat,Double lang,String mAddress){
         String id = databaseReference.push().getKey();
+        Alert alert = new Alert(tag,lat,lang,mAddress, id);
         databaseReference
                 .child(firebaseAuth.getUid())
                 .child("Alerts")
@@ -64,7 +68,7 @@ public class AlertRepository {
 
     public MutableLiveData<List<Alert>> getAllAlerts(){
         databaseReference
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -88,5 +92,21 @@ public class AlertRepository {
                     }
                 });
         return alertResponseMutableLiveData;
+    }
+
+    public MutableLiveData<Boolean> deleteAlert(String alertId){
+        databaseReference
+                .child(firebaseAuth.getUid())
+                .child("Alerts")
+                .child(alertId)
+                .removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "onSuccess: "+alertId);
+                        deleteSuccessMutableLiveData.postValue(true);
+                    }
+                });
+        return deleteSuccessMutableLiveData;
     }
 }

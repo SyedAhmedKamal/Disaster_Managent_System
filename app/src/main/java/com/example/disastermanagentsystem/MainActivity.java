@@ -11,6 +11,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.disastermanagentsystem.databinding.ActivityMainBinding;
@@ -54,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
             navController = navHostFragment.getNavController();
         }
 
-        appBarConfiguration = new AppBarConfiguration.Builder(R.id.splashFragment, R.id.mainFragment).build();
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.splashFragment, R.id.mainFragment)
+                .build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
@@ -90,10 +93,12 @@ public class MainActivity extends AppCompatActivity {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Log.d(TAG, "onDataChange: "+snapshot.getValue());
-                            String name = snapshot.getValue().toString();
-                            String[] first_name = name.split(" ");
-                            binding.toolbar.setTitle("Hello,\n"+first_name[0].toUpperCase());
+                            if (snapshot.exists()){
+                                Log.d(TAG, "onDataChange: "+snapshot.getValue());
+                                String name = snapshot.getValue().toString();
+                                String[] first_name = name.split(" ");
+                                binding.toolbar.setTitle("Hello,\n"+first_name[0].toUpperCase());
+                            }
                         }
 
                         @Override

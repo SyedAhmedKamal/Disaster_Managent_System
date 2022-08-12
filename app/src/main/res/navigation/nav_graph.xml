@@ -51,15 +51,18 @@
             app:destination="@id/createAlertFragment"
             app:popUpTo="@id/createAlertFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mainFragment_to_allMarkerFragment"
+            app:destination="@id/allMarkerFragment" />
     </fragment>
     <fragment
         android:id="@+id/createAlertFragment"
         android:name="com.example.disastermanagentsystem.view.fragments.CreateAlertFragment"
-        android:label="fragment_bottom_sheet"
-        tools:layout="@layout/fragment_bottom_sheet" >
-        <action
-            android:id="@+id/action_createAlertFragment_pop"
-            app:popUpTo="@id/createAlertFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:label="Create new alert"
+        tools:layout="@layout/fragment_bottom_sheet" />
+    <fragment
+        android:id="@+id/allMarkerFragment"
+        android:name="com.example.disastermanagentsystem.view.fragments.AllMarkerFragment"
+        android:label="Manage alerts"
+        tools:layout="@layout/fragment_all_marker" />
 </navigation>
